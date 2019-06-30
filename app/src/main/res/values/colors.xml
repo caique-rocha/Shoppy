@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#7b4bff</color>
+    <color name="colorPrimaryDark">#6539ba</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="bgBottomNavigation">#fe485a</color>
+    <color name="colorGreen">#3CB371</color>
+    <color name="contact_name">#333333</color>
+    <color name="contact_number">#8c8c8c</color>
+    <color name="bg_row_background">#fa315b</color>
+    <color name="item_name">#535353</color>
+    <color name="description">#a9a9a9</color>
+</resources>
