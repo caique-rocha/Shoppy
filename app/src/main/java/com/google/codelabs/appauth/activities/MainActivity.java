@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements
         ConversationFragment.OnFragmentInteractionListener {
 
 
-    @BindView(R.id.notificationButton)
+    @BindView(R.id.notificationBtn)
     ImageView notificationButton;
 
     @BindView(R.id.messageButton)
@@ -97,10 +97,17 @@ public class MainActivity extends AppCompatActivity implements
         loadFragment(new HomeFragment());
 
 
+         notificationButton=findViewById(R.id.notificationBtn);
+
+         messageButton=findViewById(R.id.messageButton);
+
+        toProfile=findViewById(R.id.logo);
+
+
         whiteNotificationBar(toolbar);
 
         //default fragment
-//        loadFragment(new HomeFragment());
+    loadFragment(new HomeFragment());
 
 
         //bottom navigation View

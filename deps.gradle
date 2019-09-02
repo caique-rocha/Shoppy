@@ -8,7 +8,7 @@ ext {
     def MaterialVersion = '1.0.0'
     def CardViewVersion = '1.0.0'
     def RecyclerVersion = '1.0.0'
-    def ButterKnifeVersion = '10.0.0'
+    def ButterKnifeVersion = '10.1.0'
     def PicassoVersion = '2.71828'
     def TimberVersion = '4.7.1'
     def GoogleGsonVersion = '2.8.5'
@@ -107,6 +107,7 @@ ext {
     ]
 
     annotationProcessors = [
+            butterknifeCompiler:"com.jakewharton:butterknife-compiler:${ButterKnifeVersion}",
             archLifecycle: "androidx.lifecycle:lifecycle-compiler:${ArchLifecycleCompilerVersion}",
             room         : "androidx.room:room-compiler:${RoomCompilerVersion}"
     ]
