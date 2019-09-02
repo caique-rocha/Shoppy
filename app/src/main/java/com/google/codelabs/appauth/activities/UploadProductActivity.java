@@ -15,11 +15,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,8 +83,6 @@ public class UploadProductActivity extends AppCompatActivity {
     @BindView(R.id.btnUpload)
     Button uploadButton;
 
-    @BindView(R.id.btnAddImg)
-    Button AddImgBtn;
 
     String mProductName;
     String mProductPrice;
@@ -130,64 +130,21 @@ public class UploadProductActivity extends AppCompatActivity {
             Intent pickImage = new Intent();
             pickImage.setType("image/*");
             pickImage.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(pickImage, "Select Image"), GALLERY_REQUEST_CODE);
+            startActivityForResult(Intent.createChooser(pickImage, "Select Image"),
+                    GALLERY_REQUEST_CODE);
 
         });
 
         lnrImages = findViewById(R.id.lnrImages);
-        ivAddPhotos.setOnClickListener(v -> {
-            startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
-
-        });
-
-        uploadButton.setOnClickListener(v -> {
-            mProductName = etproductName.getText().toString().trim();
-            mProductPrice = etproductPrice.getText().toString().trim();
-            mProductColor = etproductColor.getText().toString().trim();
-            mProductCategory = etproductCategory.getText().toString().trim();
-            mProductSize = etProductSize.getText().toString().trim();
-            mProductImage = etproductImage.getText().toString().trim();
-
-            product = new Product();
-
-            product.setProductName(mProductName);
-            product.setProductPrice(mProductPrice);
-            product.setProductColor(mProductColor);
-            product.setProductCategory(mProductCategory);
-            product.setProductSize(mProductSize);
-            product.setProductImage(mProductImage);
-
-            productInterface = ProductClient.getProductClient().create(ProductInterface.class);
-            Call<ResponseBody> call = productInterface.addProduct(product);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(UploadProductActivity.this, "Uploaded", Toast.LENGTH_LONG).show();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(UploadProductActivity.this, "Failed", Toast.LENGTH_LONG).show();
+        ivAddPhotos.setOnClickListener(v ->startActivityForResult(getPickImageChooserIntent(),
+                IMAGE_RESULT));
 
 
-                }
-            });
 
-
-        });
+        uploadButton.setOnClickListener(v -> multipartImageUpload());
 
         askPermission();
-//        initRetrofitClient();
-        AddImgBtn.setOnClickListener(v -> {
-            if (bitmap != null) {
-                multipartImageUpload();
-            } else {
-                Toast.makeText(this, "Bitmap is null. Try again ", Toast.LENGTH_SHORT).show();
-            }
-        });
+//
     }
 
 
@@ -216,7 +173,8 @@ public class UploadProductActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case ALL_PERMISSIONS_RESULT:
@@ -267,46 +225,60 @@ public class UploadProductActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (permissionsToRequest.size() > 0) {
-                requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+                requestPermissions(permissionsToRequest.toArray
+                        (new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
             }
         }
 
     }
 
     private void multipartImageUpload() {
+        mProductName = etproductName.getText().toString().trim();
+        mProductPrice = etproductPrice.getText().toString().trim();
+        mProductColor = etproductColor.getText().toString().trim();
+        mProductCategory = etproductCategory.getText().toString().trim();
+        mProductSize = etProductSize.getText().toString().trim();
+        mProductImage = etproductImage.getText().toString().trim();
         try {
             File filesDir = getApplicationContext().getFilesDir();
             File file = new File(filesDir, "image" + ".png");
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-            byte[] bitmapdata = bos.toByteArray();
+            byte[] bitmap = bos.toByteArray();
 
             FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
+            fos.write(bitmap);
             fos.flush();
             fos.close();
 
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
 
-            MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload");
-            RequestBody title=RequestBody.create(MediaType.parse("multipart/form-data"),mProductName);
-            RequestBody price=RequestBody.create(MediaType.parse("multipart/form-data"),mProductPrice);
-            RequestBody color=RequestBody.create(MediaType.parse("multipart/form-data"),mProductColor);
-            RequestBody category=RequestBody.create(MediaType.parse("multipart/form-data"),mProductCategory);
-            RequestBody size=RequestBody.create(MediaType.parse("multipart/form-data"),mProductSize);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("upload",
+                    file.getName(), reqFile);
+            RequestBody name = RequestBody.create(MediaType.parse("text/plain"),
+                    "upload");
+            RequestBody title = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    mProductName);
+            RequestBody price = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    mProductPrice);
+            RequestBody color = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    mProductColor);
+            RequestBody category = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    mProductCategory);
+            RequestBody size = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    mProductSize);
 
 
             ProductInterface productInterface = ProductClient.getProductClient().create(ProductInterface.class);
-            Call<ResponseBody> req = productInterface.postImage(body, name,title,price,color,category,size);
+            Call<ResponseBody> req = productInterface.postImage(body, name, title, price, color, category, size);
             req.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 200) {
-                        Toast.makeText(UploadProductActivity.this, "Uploaded Succesfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadProductActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                     }
-//                    Log.e(TAG, "onResponse: "+response.errorBody().toString());
+
                 }
 
                 @Override
@@ -342,17 +314,20 @@ public class UploadProductActivity extends AppCompatActivity {
         }
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        List<ResolveInfo> listGallery = packageManager.
+                queryIntentActivities(galleryIntent, 0);
         for (ResolveInfo res : listGallery) {
             Intent intent = new Intent(galleryIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setComponent(new ComponentName(res.activityInfo.packageName,
+                    res.activityInfo.name));
             intent.setPackage(res.activityInfo.packageName);
             allIntents.add(intent);
 
         }
         Intent mainIntent = allIntents.get(allIntents.size() - 1);
         for (Intent intent : allIntents) {
-            if ((intent.getComponent().getClassName().equals("com.google.codelabs.appauth.activities.UploadProductActivity"))) {
+            if ((Objects.requireNonNull(intent.getComponent()).getClassName().
+                    equals("com.google.codelabs.appauth.activities.UploadProductActivity"))) {
                 mainIntent = intent;
                 break;
             }
@@ -360,7 +335,8 @@ public class UploadProductActivity extends AppCompatActivity {
         allIntents.remove(mainIntent);
 
         Intent chooserIntent = Intent.createChooser(mainIntent, "Select Source");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[(allIntents.size())]));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new
+                Parcelable[(allIntents.size())]));
         return chooserIntent;
 
     }
@@ -376,7 +352,8 @@ public class UploadProductActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
@@ -414,6 +391,7 @@ public class UploadProductActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@Nullable Bundle outState) {
         super.onSaveInstanceState(outState);
+        assert outState != null;
         outState.putParcelable("pic_uri", picUri);
     }
 

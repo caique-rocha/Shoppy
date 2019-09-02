@@ -4,6 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Product {
+    @SerializedName("_id")
+    @Expose
+    private
+   String mProductId;
     @SerializedName("name")
     @Expose
     private
@@ -38,21 +42,22 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, String productPrice, String productImage) {
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productImage = productImage;
-    }
-
-    public Product(String productName, String productPrice,
-                   String productImage, String productColor,
-                   String productCategory, String productSize) {
+    public Product(String mProductId, String productName, String productPrice, String productImage, String productColor, String productCategory, String productSize) {
+        this.mProductId = mProductId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productImage = productImage;
         this.productColor = productColor;
         this.productCategory = productCategory;
         this.productSize = productSize;
+    }
+
+    public String getmProductId() {
+        return mProductId;
+    }
+
+    public void setmProductId(String mProductId) {
+        this.mProductId = mProductId;
     }
 
     public String getProductName() {

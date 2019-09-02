@@ -1,7 +1,10 @@
 package com.google.codelabs.appauth.saf;
 
-public class Config {
+import com.google.codelabs.appauth.activities.MainActivity;
+import com.google.codelabs.appauth.fragments.NotificationFragment;
 
+public class Config {
+    public static final String regId=MainActivity.FirebaseRegId;
     //global topic to receive app wide push notifs
     public static final String TOPIC_GLOBAL="global";
 
@@ -24,7 +27,7 @@ public class Config {
     public static final String PASSKEY="bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
     public static final String TRANSACTION_TYPE="CustomerPayBillOnline";
     public static final String PARTYB="174379";
-    public static final String CALLBACKURL = "https://spurquoteapp.ga/pusher/pusher.php?title=stk_push&message=result&push_type=individual&regId=";
+    public static final String CALLBACKURL = "https://serene-shenandoah-49935.herokuapp.com/hooks";
 
 
 

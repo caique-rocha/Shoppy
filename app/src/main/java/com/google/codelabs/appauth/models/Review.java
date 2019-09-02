@@ -5,50 +5,31 @@ import com.google.gson.annotations.SerializedName;
 
 public class Review {
 
-    @SerializedName("id")
-    @Expose String reviewId;
 
     @SerializedName("stars")
-    @Expose String reviewStars;
+    @Expose
+    Integer reviewStars;
 
-    @SerializedName("date")
-    @Expose String reviewDate;
 
     @SerializedName("message")
-    @Expose String reviewMessage;
+    @Expose
+    String reviewMessage;
 
-    public Review(String reviewId, String reviewStars, String reviewDate, String reviewMessage) {
-        this.reviewId = reviewId;
-        this.reviewStars = reviewStars;
-        this.reviewDate = reviewDate;
-        this.reviewMessage = reviewMessage;
-    }
 
     public Review() {
     }
 
-    public String getReviewId() {
-        return reviewId;
+    public Review(Integer reviewStars, String reviewMessage) {
+        this.reviewStars = reviewStars;
+        this.reviewMessage = reviewMessage;
     }
 
-    public void setReviewId(String reviewId) {
-        this.reviewId = reviewId;
-    }
-
-    public String getReviewStars() {
+    public Integer getReviewStars() {
         return reviewStars;
     }
 
-    public void setReviewStars(String reviewStars) {
+    public void setReviewStars(Integer reviewStars) {
         this.reviewStars = reviewStars;
-    }
-
-    public String getReviewDate() {
-        return reviewDate;
-    }
-
-    public void setReviewDate(String reviewDate) {
-        this.reviewDate = reviewDate;
     }
 
     public String getReviewMessage() {

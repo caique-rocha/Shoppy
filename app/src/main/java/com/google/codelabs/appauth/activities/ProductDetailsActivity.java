@@ -1,11 +1,21 @@
 package com.google.codelabs.appauth.activities;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +28,11 @@ import com.glide.slider.library.SliderTypes.BaseSliderView;
 import com.glide.slider.library.SliderTypes.DefaultSliderView;
 import com.glide.slider.library.Tricks.ViewPagerEx;
 import com.google.codelabs.appauth.R;
+import com.google.codelabs.appauth.Room.entities.CartEntity;
+import com.google.codelabs.appauth.Room.viewmodel.CartViewModel;
 import com.google.codelabs.appauth.adapters.TabLayoutAdapter;
 import com.google.codelabs.appauth.fragments.FragmentDetails;
+import com.google.codelabs.appauth.fragments.ProductFragment;
 
 import java.util.HashMap;
 
@@ -27,7 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProductDetailsActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener,
-        ViewPagerEx.OnPageChangeListener {
+        ViewPagerEx.OnPageChangeListener, ProductFragment.OnFragmentInteractionListener {
 
     @BindView(R.id.productBack)
     ImageView back;
@@ -47,8 +60,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     @BindView(R.id.tVPrice)
     TextView mPrice;
 
+    @BindView(R.id.addtocart)
+    Button mAddCart;
 
-    private String name, price,image;
+
+    private String id, name, category, image, price;
+
+    CartViewModel mCartViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +75,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         setContentView(R.layout.activity_product_details);
         ButterKnife.bind(this);
 
-        name=getIntent().getStringExtra("name");
-        price=getIntent().getStringExtra("price");
-        image=getIntent().getStringExtra("image");
+        id = getIntent().getStringExtra("id");
+        name = getIntent().getStringExtra("name");
+        category = getIntent().getStringExtra("category");
+        image = getIntent().getStringExtra("image");
+        price = getIntent().getStringExtra("price");
+
+        SharedPreferences mPrefs = getApplicationContext().getSharedPreferences("added", Context.MODE_PRIVATE);
+        boolean isAddedToCart = mPrefs.getBoolean("added", false);
+        if (isAddedToCart) {
+            mAddCart.setVisibility(View.GONE);
+        }
 
         mName.setText(name);
         mPrice.setText("$".concat(price));
@@ -72,7 +99,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         tabLayout.setupWithViewPager(viewPager);
 
         HashMap<String, String> file_maps = new HashMap<>();
-        file_maps.put("Big Bang Theory", "https://www.sccpre.cat/mypng/detail/13-134844_transparent-background-laptop-png.png");
+        file_maps.put("Product", image);
 //        file_maps.put("House of Cards", R.drawable.catthree);
 //        file_maps.put("Game of Thrones", R.drawable.cattwo);
 
@@ -95,6 +122,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
 //            textSliderView.getBundle()
 //                    .putString("extra", name);
             sliderLayout.addSlider(textSliderView);
+            whiteNotificationBar(sliderLayout);
+            mAddCart.setOnClickListener(v -> addToCart());
 
         }
 
@@ -104,12 +133,37 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         sliderLayout.setDuration(4000);
         sliderLayout.addOnPageChangeListener(this);
     }
+
+    private void addToCart() {
+        CartEntity cartEntity = new CartEntity(id, name, category, price, image);
+        mCartViewModel = new CartViewModel(getApplication());
+        mCartViewModel.insert(cartEntity);
+
+        Context context = getApplicationContext();
+        SharedPreferences mAddedToCart = context.getSharedPreferences("cart", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mAddedToCart.edit();
+        editor.putBoolean("added", true);
+        editor.apply();
+
+        mAddCart.setVisibility(View.GONE);
+    }
+
     private void setUpViewPager(ViewPager viewPager) {
         TabLayoutAdapter adapter = new TabLayoutAdapter(getSupportFragmentManager());
         adapter.addFragment(new ProductFragment(), "Product");
         adapter.addFragment(new FragmentDetails(), "Details");
         adapter.addFragment(new ProductReviewsFragment(), "Reviews");
         viewPager.setAdapter(adapter);
+    }
+
+    private void whiteNotificationBar(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = view.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+            getWindow().setStatusBarColor(Color.WHITE);
+
+        }
     }
 
     @Override
@@ -133,4 +187,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
 }

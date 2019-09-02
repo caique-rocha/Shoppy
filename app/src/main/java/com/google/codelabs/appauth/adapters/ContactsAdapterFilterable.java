@@ -1,7 +1,7 @@
 package com.google.codelabs.appauth.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.models.Contact;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ContactsAdapterFilterable extends RecyclerView.Adapter<ContactsAdap
         public MyViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
-            phone = view.findViewById(R.id.phone);
+            phone = view.findViewById(R.id.price);
             thumbnail = view.findViewById(R.id.thumbnail);
 
             view.setOnClickListener(new View.OnClickListener() {
@@ -68,9 +69,12 @@ public class ContactsAdapterFilterable extends RecyclerView.Adapter<ContactsAdap
         holder.name.setText(contact.getName());
         holder.phone.setText(contact.getPhone());
 
-        Glide.with(context)
-                .load(contact.getProfileImage())
-                .apply(RequestOptions.circleCropTransform())
+//        Glide.with(context)
+//                .load(contact.getProfileImage())
+//                .apply(RequestOptions.circleCropTransform())
+//                .into(holder.thumbnail);
+        Picasso.get().load(contact.getProfileImage())
+                .placeholder(R.drawable.profile)
                 .into(holder.thumbnail);
     }
 

@@ -7,7 +7,7 @@
 
         />
     <stroke
-        android:color="#727c8e"
+        android:color="#ccc"
 
         />
     <size
@@ -15,7 +15,7 @@
         android:width="300dp"
         />
     <solid
-        android:color="#727c8e"
+        android:color="#ccc"
 
         />
 

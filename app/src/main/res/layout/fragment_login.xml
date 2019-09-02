@@ -1,14 +1,12 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="#f5f6f8"
     tools:context=".fragments.SignUpFragment">
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +34,7 @@
             android:drawableLeft="@drawable/ic_email_black_24dp"
             android:drawablePadding="16dp"
             android:hint="@string/email"
+            android:background="@android:color/transparent"
             android:inputType="textEmailAddress"
             android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,12 +55,15 @@
             android:inputType="textPassword"
             android:textSize="17sp"
             app:layout_constraintTop_toBottomOf="@+id/editTextmail"
-            tools:layout_editor_absoluteX="32dp" />
+            tools:layout_editor_absoluteX="32dp"
+            android:background="@android:color/transparent"
+
+            />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/login_view"
         android:layout_width="139dp"
         android:layout_height="39dp"
@@ -114,7 +116,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/forgot_password"
@@ -134,4 +136,4 @@
         app:layout_constraintTop_toBottomOf="@+id/login_view" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

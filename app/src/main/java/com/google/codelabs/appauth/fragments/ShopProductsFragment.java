@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,10 @@ import android.widget.Toast;
 
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.activities.UploadProductActivity;
+import com.google.codelabs.appauth.models.TopItemModel;
+import com.google.codelabs.appauth.product.ProductClient;
+import com.google.codelabs.appauth.product.ProductInterface;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,9 +39,13 @@ import butterknife.Unbinder;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ShopProductsFragment extends Fragment {
+
 
     Unbinder unbinder;
     @BindView(R.id.fabAddProduct)
@@ -44,6 +56,8 @@ public class ShopProductsFragment extends Fragment {
     private SectionedRecyclerViewAdapter sectionAdapter;
 
     private OnFragmentInteractionListener mListener;
+
+    TopItemModel topItemModel;
 
     public ShopProductsFragment() {
         // Required empty public constructor
@@ -61,22 +75,24 @@ public class ShopProductsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_products, container, false);
-        sectionAdapter=new SectionedRecyclerViewAdapter();
+        sectionAdapter = new SectionedRecyclerViewAdapter();
 
         sectionAdapter.addSection(new ProductsSection(ProductsSection.APARELL));
         sectionAdapter.addSection(new ProductsSection(ProductsSection.BEAUTY));
         sectionAdapter.addSection(new ProductsSection(ProductsSection.ELECTRONICS));
         sectionAdapter.addSection(new ProductsSection(ProductsSection.SHOES));
 
-        RecyclerView recyclerView=view.findViewById(R.id.shop_product_fragment);
+        RecyclerView recyclerView = view.findViewById(R.id.shop_product_fragment);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(sectionAdapter);
         unbinder = ButterKnife.bind(this, view);
 
-        fabAdd.setOnClickListener(v->{
-            Intent intent=new Intent(getActivity(), UploadProductActivity.class);
+        fabAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), UploadProductActivity.class);
             startActivity(intent);
         });
+
+
         return view;
     }
 
@@ -116,16 +132,23 @@ public class ShopProductsFragment extends Fragment {
     }
 
     private class ProductsSection extends StatelessSection {
-        final static  int BEAUTY=0;
-        final static  int ELECTRONICS=1;
-        final static  int APARELL=2;
-        final static  int SHOES=3;
+        final static int BEAUTY = 0;
+        final static int ELECTRONICS = 1;
+        final static int APARELL = 2;
+        final static int SHOES = 3;
 
         String title;
-        List<String> list;
+        private List<TopItemModel> list=new ArrayList<>();
+        List<TopItemModel> listone=new ArrayList<>();
+        List<TopItemModel> listtwo=new ArrayList<>();
+        List<TopItemModel> listthree=new ArrayList<>();
+        List<TopItemModel> listfour=new ArrayList<>();
         int imgPlaceHolderResId;
 
-        ProductsSection(int topic){
+        ProductInterface productInterface = ProductClient.getProductClient().create(ProductInterface.class);
+        Call<List<TopItemModel>> call;
+
+        ProductsSection(int topic) {
             super(SectionParameters.builder()
                     .itemResourceId(R.layout.section_ex2_item)
                     .headerResourceId(R.layout.section_ex2_header)
@@ -134,31 +157,76 @@ public class ShopProductsFragment extends Fragment {
 
             switch (topic) {
                 case BEAUTY:
-                    this.title="Beauty";
-                    this.list=getProducts(R.array.products_beauty);
-                    this.imgPlaceHolderResId=R.drawable.boots;
+                    this.title = "Beauty";
+
+                    call = productInterface.getByLabel("Beauty");
+                    call.enqueue(new Callback<List<TopItemModel>>() {
+                        @Override
+                        public void onResponse(Call<List<TopItemModel>> call, Response<List<TopItemModel>> response) {
+                            listone = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<TopItemModel>> call, Throwable t) {
+
+                        }
+                    });
+                    this.list=listone;
+                    this.imgPlaceHolderResId = R.drawable.boots;
                     break;
                 case ELECTRONICS:
-                    this.title="Electronics";
-                    this.list=getProducts(R.array.products_electronics);
-                    this.imgPlaceHolderResId=R.drawable.backpack;
+                    this.title = "Electronics";
+                    call = productInterface.getByLabel("Electronics");
+                    call.enqueue(new Callback<List<TopItemModel>>() {
+                        @Override
+                        public void onResponse(Call<List<TopItemModel>> call, Response<List<TopItemModel>> response) {
+                            listtwo = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<TopItemModel>> call, Throwable t) {
+
+                        }
+                    });
+                     this.list=listtwo;
+                    this.imgPlaceHolderResId = R.drawable.backpack;
                     break;
                 case APARELL:
-                    this.title="Aparell";
-                    this.list=getProducts(R.array.products_aparell);
-                    this.imgPlaceHolderResId=R.drawable.scarf;
+                    this.title = "Aparell";
+                    call = productInterface.getByLabel("Aparell");
+                    call.enqueue(new Callback<List<TopItemModel>>() {
+                        @Override
+                        public void onResponse(Call<List<TopItemModel>> call, Response<List<TopItemModel>> response) {
+                            listthree = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<TopItemModel>> call, Throwable t) {
+
+                        }
+                    });
+                    list=this.listthree;
+                    this.imgPlaceHolderResId = R.drawable.scarf;
                     break;
                 case SHOES:
-                    this.title="Shoes";
-                    this.list=getProducts(R.array.products_shoes);
-                    this.imgPlaceHolderResId=R.drawable.backpack;
+                    this.title = "Shoes";
+                    call = productInterface.getByLabel("Shoes");
+                    call.enqueue(new Callback<List<TopItemModel>>() {
+                        @Override
+                        public void onResponse(Call<List<TopItemModel>> call, Response<List<TopItemModel>> response) {
+                            listfour = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<TopItemModel>> call, Throwable t) {
+
+                        }
+                    });
+                    this.list=listfour;
+                    this.imgPlaceHolderResId = R.drawable.backpack;
                     break;
             }
 
-        }
-
-        private List<String> getProducts(int arrayResource){
-            return new ArrayList<>(Arrays.asList(getResources().getStringArray(arrayResource)));
         }
 
 
@@ -183,15 +251,20 @@ public class ShopProductsFragment extends Fragment {
 
         @Override
         public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-            final ItemViewHolder itemHolder=(ItemViewHolder)holder;
+            final ItemViewHolder itemHolder = (ItemViewHolder) holder;
+            topItemModel = list.get(position);
+//            String [] item=list.get(position).split("\\|");
 
-            String [] item=list.get(position).split("\\|");
+//            itemHolder.tvHeader.setText(item[0]);
+//            itemHolder.tvPrice.setText(item[1]);
+//            itemHolder.imgItem.setImageResource(imgPlaceHolderResId);
+            itemHolder.tvHeader.setText(topItemModel.getmTopName());
+            itemHolder.tvPrice.setText(topItemModel.getmTopPrice());
+            Picasso.get().load(topItemModel.getmImageUrl())
+                    .into(itemHolder.imgItem);
 
-            itemHolder.tvHeader.setText(item[0]);
-            itemHolder.tvDate.setText(item[1]);
-            itemHolder.imgItem.setImageResource(imgPlaceHolderResId);
 
-            itemHolder.rootView.setOnClickListener((View v)->{
+            itemHolder.rootView.setOnClickListener((View v) -> {
                 Toast.makeText(getContext(), String.format("Clicked on position #%s of Section %s",
                         sectionAdapter.getPositionInSection(itemHolder.getAdapterPosition()),
                         title),
@@ -206,7 +279,7 @@ public class ShopProductsFragment extends Fragment {
 
         @Override
         public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
-            HeaderViewHolder headerHolder=(HeaderViewHolder)holder;
+            HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
             headerHolder.tvTitle.setText(title);
         }
 
@@ -217,13 +290,14 @@ public class ShopProductsFragment extends Fragment {
 
         @Override
         public void onBindFooterViewHolder(RecyclerView.ViewHolder holder) {
-            FooterViewHolder footerHolder=(FooterViewHolder) holder;
-            footerHolder.rootView.setOnClickListener((View v)->{
-                Toast.makeText(getContext(),String.format("clicked on footer of Section %s",title),Toast.LENGTH_SHORT).show();
+            FooterViewHolder footerHolder = (FooterViewHolder) holder;
+            footerHolder.rootView.setOnClickListener((View v) -> {
+                Toast.makeText(getContext(), String.format("clicked on footer of Section %s", title), Toast.LENGTH_SHORT).show();
             });
 
         }
     }
+
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tvTitle;
@@ -246,18 +320,18 @@ public class ShopProductsFragment extends Fragment {
         }
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder{
-        private View rootView ;
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
+        private View rootView;
         private ImageView imgItem;
-        private  TextView tvHeader;
-        private  TextView tvDate;
+        private TextView tvHeader;
+        private TextView tvPrice;
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            rootView=itemView;
-            imgItem=itemView.findViewById(R.id.imgItem);
-            tvHeader=itemView.findViewById(R.id.tvHeader);
-            tvDate= itemView.findViewById(R.id.tvDate);
+            rootView = itemView;
+            imgItem = itemView.findViewById(R.id.imgItem);
+            tvHeader = itemView.findViewById(R.id.tvHeader);
+            tvPrice = itemView.findViewById(R.id.text_view_price);
 
         }
     }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?attr/actionBarSize"
+    android:layout_marginBottom="56dp"
     >
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f5f6f8">
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
             android:layout_width="374dp"
             android:layout_height="217dp"
@@ -24,61 +24,58 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView5">
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-        </android.support.v7.widget.CardView>
+            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.cardview.widget.CardView>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#ccc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/include" />
         <View
             android:id="@+id/view"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="56dp"
             android:background="@drawable/apparel_circle"
             android:backgroundTint="@android:color/white"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"/>
 
-        <ImageView
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_profile_pic"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginTop="60dp"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view"
-            app:layout_constraintVertical_bias="1.0"
-
-            />
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="60dp"
             android:gravity="center_horizontal"
             android:text="@string/jane_doe"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/view"
-            app:layout_constraintTop_toTopOf="parent"
             android:visibility="invisible"
-            />
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvEmail"
@@ -87,10 +84,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="@string/email_holder"
-            app:layout_constraintStart_toEndOf="@+id/view"
-            app:layout_constraintTop_toBottomOf="@+id/tvName"
             android:visibility="invisible"
-            />
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <TextView
             android:id="@+id/button_sign_out"
@@ -106,15 +102,15 @@
             android:gravity="center"
             android:text="@string/edit_profile"
             android:textColor="@color/colorAccent"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.125"
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toBottomOf="@+id/tvEmail"
-            android:visibility="invisible"
 
             />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardView5"
             android:layout_width="374dp"
             android:layout_height="217dp"
@@ -130,15 +126,15 @@
 
             >
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewBasic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
                 >
 
-            </android.support.v7.widget.RecyclerView>
-        </android.support.v7.widget.CardView>
+            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/button_sign_login"
@@ -149,9 +145,9 @@
             android:gravity="center"
             android:text="@string/login"
             android:textColor="@color/colorAccent"
-           app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3"
             tools:layout_editor_absoluteX="161dp" />
-    </android.support.constraint.ConstraintLayout>
-</android.support.v4.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

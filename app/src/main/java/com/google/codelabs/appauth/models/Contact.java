@@ -3,12 +3,18 @@ package com.google.codelabs.appauth.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Contact {
+
+    @SerializedName("name")
+    private
     String name;
-
     @SerializedName("image")
+    private
     String profileImage;
-
+    @SerializedName("category")
+    private
     String phone;
+    @SerializedName("color")
+    private
     String email;
 
     public String getName() {
@@ -45,9 +51,9 @@ public class Contact {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj !=null && (obj instanceof Contact)) {
-            return  ((Contact) obj).email.equalsIgnoreCase(email) ;
+        if (obj != null && (obj instanceof Contact)) {
+            return ((Contact) obj).email.equalsIgnoreCase(email);
         }
-        return  false;
+        return false;
     }
 }

@@ -1,10 +1,15 @@
 package com.google.codelabs.appauth.product;
 
+import com.google.codelabs.appauth.Room.entities.CartEntity;
 import com.google.codelabs.appauth.models.AccessToken;
 import com.google.codelabs.appauth.models.Product;
+import com.google.codelabs.appauth.models.Review;
+import com.google.codelabs.appauth.models.TopItemModel;
 
 import java.util.List;
+import java.util.Observable;
 
+import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -17,10 +22,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ProductInterface {
-
-    @POST("product")
-    Call<ResponseBody> addProduct(@Body Product product);
-
     @Multipart
     @POST("/upload")
     Call<ResponseBody> postImage(@Part MultipartBody.Part image,
@@ -35,7 +36,24 @@ public interface ProductInterface {
     @GET("/search")
     Call<List<Product>> searchByName(@Query("name") String name);
 
+    @GET("search")
+    Single<List<Product>> getContacts(@Query("name") String name);
+
+    @GET("/search")
+    Call<List<CartEntity>> getByCategory(@Query("name") String name);
+
+    @GET("/search")
+    Call<List<TopItemModel>>getByLabel(@Query("name") String name);
+
     @POST("https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials")
     Call<AccessToken> requestToken(RequestBody requestBody);
 
+    @POST("/reviews")
+    Call<ResponseBody> addShopReview(@Body Review review);
+
+    @GET("/reviews")
+    Call<List<Review>> getAllShopReviews();
+
+    @POST("/hooks/mpesa/status")
+    Call<ResponseBody> transactionStatus(@Query("firebaseId") String mFirebaseId);
 }

@@ -1,27 +1,32 @@
 package com.google.codelabs.appauth.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.codelabs.appauth.Helpers.NetworkUtil;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.fragments.AllCategoriesFragment;
 import com.google.codelabs.appauth.fragments.CartFragment;
@@ -34,12 +39,11 @@ import com.google.codelabs.appauth.fragments.OrderSuccess;
 import com.google.codelabs.appauth.fragments.ProfileFragment;
 import com.google.codelabs.appauth.fragments.SearchFragment;
 import com.google.codelabs.appauth.fragments.ConversationFragment;
-import com.google.codelabs.appauth.push.activity.PushActivity;
-import com.google.codelabs.appauth.search.SearchActivity;
+import com.google.codelabs.appauth.saf.Config;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
+import steelkiwi.com.library.DotsLoaderView;
 
 public class MainActivity extends AppCompatActivity implements
         HomeFragment.OnFragmentInteractionListener,
@@ -62,20 +66,18 @@ public class MainActivity extends AppCompatActivity implements
     ImageView messageButton;
 
     @BindView(R.id.logo)
-    ImageView toProfile;
+    TextView toProfile;
 
     String token;
     String email;
     String imageUri;
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final  String ACTION="com.google.codelabs.appauth.activities.MainActivity";
-
-    private static final Fragment currentFragment=new HomeFragment();
+    public  static  String FirebaseRegId = null;
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         //save the current users fragment
-       savedInstanceState.putString("currentFragment","currentFragment");
+        savedInstanceState.putString("currentFragment", "currentFragment");
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -85,15 +87,14 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-         ButterKnife.bind(this);
-        MobileAds.initialize(this,"ca-app-pub-9476521556541591~7305076193");
+        ButterKnife.bind(this);
+        MobileAds.initialize(this, "ca-app-pub-9476521556541591~7305076193");
 
 
         //white notificationbar
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        loadFragment(new HomeFragment());
 
 
         whiteNotificationBar(toolbar);
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements
         //notification
         notificationButton.setOnClickListener(v ->
                 loadFragment(new NotificationFragment())
-                );
+        );
 
         //messages
         messageButton.setOnClickListener(v ->
@@ -117,15 +118,13 @@ public class MainActivity extends AppCompatActivity implements
 
         //invoke profile
         toProfile.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this,ShopProfileActivity.class)));
+                startActivity(new Intent(MainActivity.this, ShopProfileActivity.class)));
 
 
         token = getIntent().getStringExtra("token");
-        email= getIntent().getStringExtra("email");
+        email = getIntent().getStringExtra("email");
 
-
-
-
+        getFirebaseId();
     }
 
 
@@ -135,21 +134,24 @@ public class MainActivity extends AppCompatActivity implements
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case (R.id.navigation_shop):
+                    toProfile.setText(getResources().getString(R.string.title_home));
                     loadFragment(new HomeFragment());
                     return true;
                 case (R.id.navigation_search):
+                    toProfile.setText(getResources().getString(R.string.title_search));
                     loadFragment(new SearchFragment());
 //                    startActivity(new Intent(MainActivity.this, SearchActivity.class));
                     return true;
                 case (R.id.navigation_cart):
+                    toProfile.setText(getResources().getString(R.string.title_cart));
                     loadFragment(new CartFragment());
                     return true;
                 case (R.id.navigation_profile):
-
+                    toProfile.setText(getResources().getString(R.string.title_profile));
                     Bundle bundle = new Bundle();
                     bundle.putString("token", token);
                     bundle.putString("email", email);
-                    bundle.putString("image",imageUri);
+                    bundle.putString("image", imageUri);
                     ProfileFragment fragment = new ProfileFragment();
                     fragment.setArguments(bundle);
                     loadFragment(fragment);
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements
 //                    startActivity(intent);
                     return true;
                 case (R.id.navigation_more):
+                    toProfile.setText(getResources().getString(R.string.title_more));
                     loadFragment(new MoreFragment());
                     return true;
             }
@@ -179,6 +182,14 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
+//        Intent intent;
+//        if (com.google.codelabs.appauth.Helpers.NetworkUtil.getConnectivityStatusString(this).equals("No internet is available")) {
+//            intent=new Intent(getApplicationContext(),App.class);
+//        }
+//        else{
+//            intent=new Intent(MainActivity.this, MainActivity.class);
+//        }
+//        startActivity(intent);
     }
 
     @Override
@@ -187,13 +198,26 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-
     private void whiteNotificationBar(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int flags = view.getSystemUiVisibility();
             flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             view.setSystemUiVisibility(flags);
-            getWindow().setStatusBarColor(Color.WHITE);
+            getWindow().setStatusBarColor(Color.DKGRAY);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+
+    public  String getFirebaseId(){
+        SharedPreferences prefs = getSharedPreferences(Config.SHARED_PREF, 0);
+        FirebaseRegId = prefs.getString("regId", null);
+        Log.d(TAG, FirebaseRegId);
+        return FirebaseRegId;
     }
 }

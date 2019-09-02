@@ -1,8 +1,8 @@
 package com.google.codelabs.appauth.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -17,11 +17,10 @@ import com.google.codelabs.appauth.models.STKPush;
 import com.google.codelabs.appauth.saf.RetrofitInstance;
 import com.google.codelabs.appauth.saf.RetrofitInterface;
 import com.google.codelabs.appauth.saf.Utils;
-import com.stripe.android.model.Card;
-import com.stripe.android.view.CardInputWidget;
 
 import org.jetbrains.annotations.NotNull;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +33,7 @@ import static com.google.codelabs.appauth.saf.Config.PASSKEY;
 import static com.google.codelabs.appauth.saf.Config.TRANSACTION_TYPE;
 
 public class CheckOutActivity extends AppCompatActivity {
-    CardInputWidget cardInputWidget;
+
     Button mButton;
   public   String token;
   public String phone_number;
@@ -43,13 +42,7 @@ public class CheckOutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
-        cardInputWidget=findViewById(R.id.card_input_widget);
         mButton=findViewById(R.id.checkout_button);
-
-        Card cardToSave =cardInputWidget.getCard();
-        if (cardToSave==null) {
-            //show Invalid card data
-        }
         mButton.setOnClickListener((View v)->{
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setTitle("Enter Safaricoms number to checkout Kshs..");
@@ -87,7 +80,7 @@ public class CheckOutActivity extends AppCompatActivity {
             RetrofitInterface retrofitInterface= RetrofitInstance
                                                 .initRetrofit()
                                                  .create(RetrofitInterface.class);
-            Call call=retrofitInterface.getAccessToken("Basic " +auth);
+            Call<AccessToken> call=retrofitInterface.getAccessToken("Basic " +auth);
             call.enqueue(new  Callback<AccessToken>(){
 
                 @Override
@@ -137,28 +130,26 @@ public class CheckOutActivity extends AppCompatActivity {
         RetrofitInterface retrofitInterface=RetrofitInstance
                                            .initRetrofit()
                                            .create(RetrofitInterface.class);
-        Call<STKPush>  call=retrofitInterface.sendPush(stkPush,"Bearer" + " " +token);
-        call.enqueue(new Callback<STKPush>() {
-            @Override
-            public void onResponse(Call<STKPush> call, Response<STKPush> response) {
-                if (response.isSuccessful()) {
-                    Log.d("onResponse: ",response.body().toString());
-                }
-                if (response.code()==1032) {
-                    Log.e("Error","Unaccepted");
-                }
-                else{
-                    Log.e("Unknown error","Error" +response.code());
-                }
+        Call<ResponseBody>  call=retrofitInterface.sendPush(stkPush,"Bearer" + " " +token);
+   call.enqueue(new Callback<ResponseBody>() {
+       @Override
+       public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+           if (response.isSuccessful()) {
+               Log.d("onResponse: ",response.body().toString());
+           }
+           if (response.code()==1032) {
+               Log.e("Error","Unaccepted");
+           }
+           else{
+               Log.e("Unknown error","Error" +response.code());
+           }
+       }
 
-            }
+       @Override
+       public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<STKPush> call, Throwable t) {
-              t.printStackTrace();
-
-            }
-        });
+       }
+   });
 
     }
 }

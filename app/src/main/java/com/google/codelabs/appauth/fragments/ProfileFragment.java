@@ -1,41 +1,34 @@
 package com.google.codelabs.appauth.fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.Utils.Constants;
 import com.google.codelabs.appauth.activities.LoginActivity;
@@ -89,8 +82,8 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
     private CompositeSubscription mSubscriptions;
 
 
-   @BindView(R.id.img_profile_pic)
-   ImageView mImageProfile;
+    @BindView(R.id.img_profile_pic)
+    ImageView mImageProfile;
 
 
     @BindView(R.id.cardView3)
@@ -102,7 +95,7 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
     TextView mLogin;
 
     private static final String TAG = "ProfileFragment";
-    public static  final int IMAGE_REQUEST_CODE=100;
+    public static final int IMAGE_REQUEST_CODE = 100;
 
 
     List<ProfileBasic> profileBasics = new ArrayList<>();
@@ -133,7 +126,7 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
         mLogin.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             intent.setAction(TAG);
-            startActivityForResult(intent,IMAGE_REQUEST_CODE);
+            startActivityForResult(intent, IMAGE_REQUEST_CODE);
 
         });
 
@@ -144,7 +137,7 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
 
         mToken = getArguments().getString("token");
         mEmail = getArguments().getString("email");
-        imageUri=getArguments().getString("image");
+        imageUri = getArguments().getString("image");
 
         recyclerViewBasic.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewBasic.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -159,16 +152,21 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
         intInfo();
         mSubscriptions = new CompositeSubscription();
 
-        initSharedPreferences();
-        loadProfile();
-        Picasso.get().load(imageUri)
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        String fullName = sharedPreferences.getString("fullName", null);
+        String fullEmail = sharedPreferences.getString("email", null);
+        String imageUri = sharedPreferences.getString("image", null);
+
+        mTvName.setText(fullName);
+        mTvName.setVisibility(View.VISIBLE);
+        mTvEmail.setText(fullEmail);
+        mTvEmail.setVisibility(View.VISIBLE);
+        Picasso.get()
+                .load(imageUri)
                 .placeholder(R.drawable.profile)
                 .into(mImageProfile);
-
-
         return view;
     }
-
 
     private void loadProfile() {
         mSubscriptions.add(NetworkUtil.getRetrofit(mToken).getProfile(mEmail)
@@ -294,9 +292,9 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode== Activity.RESULT_OK && requestCode ==IMAGE_REQUEST_CODE) {
-         String   imageUrl=data.getStringExtra("image");
-            Log.i(TAG, "onActivityResult: "+ imageUrl);
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_REQUEST_CODE) {
+            String imageUrl = data.getStringExtra("image");
+            Log.i(TAG, "onActivityResult: " + imageUrl);
         }
 
     }

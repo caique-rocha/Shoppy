@@ -3,15 +3,14 @@ package com.google.codelabs.appauth.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.google.codelabs.appauth.adapters.MainCategoryAdapter;
 import com.google.codelabs.appauth.interfaces.FragmentCommunication;
 import com.google.codelabs.appauth.interfaces.ItemClickListener;
 import com.google.codelabs.appauth.models.Product;
-import com.google.codelabs.appauth.models.TopItemModel;
 import com.google.codelabs.appauth.models.Latest;
 import com.google.codelabs.appauth.models.MainCategory;
 
@@ -114,18 +112,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void initBottom() {
-        topItemModelArrayList.add(new Product("Shirt", "77", "https://image.kilimall.com/kenya/shop/store/goods/2375/2018/04/2375_05782736773153857_720.jpg"));
-        topItemModelArrayList.add(new Product("Phone", "78", "https://image.kilimall.com/kenya/shop/store/goods/4935/2019/05/4935_06108150282193526_720.jpg"));
-        topItemModelArrayList.add(new Product("Clothes", "79", "https://image.kilimall.com/kenya/shop/store/goods/2559/2018/07/2559_05847214974665595_720.jpg"));
-        topItemModelArrayList.add(new Product("Blender", "80", "https://image.kilimall.com/kenya/shop/store/goods/5169/2019/05/5169_06106272450264719_720.jpg"));
-        topItemModelArrayList.add(new Product("Heels", "79", "https://image.kilimall.com/kenya/shop/store/goods/2415/2018/04/2415_05773850115860735_720.jpg"));
-        topItemModelArrayList.add(new Product("Rubbers", "77", "https://image.kilimall.com/kenya/shop/store/goods/2415/2018/04/2415_05773049282117352_720.jpg"));
-        topItemModelArrayList.add(new Product("Shirt", "77", "https://image.kilimall.com/kenya/shop/store/goods/2375/2018/04/2375_05782736773153857_720.jpg"));
-        topItemModelArrayList.add(new Product("Phone", "78", "https://image.kilimall.com/kenya/shop/store/goods/4935/2019/05/4935_06108150282193526_720.jpg"));
-        topItemModelArrayList.add(new Product("Clothes", "79", "https://image.kilimall.com/kenya/shop/store/goods/2559/2018/07/2559_05847214974665595_720.jpg"));
-        topItemModelArrayList.add(new Product("Blender", "80", "https://image.kilimall.com/kenya/shop/store/goods/5169/2019/05/5169_06106272450264719_720.jpg"));
-        topItemModelArrayList.add(new Product("Heels", "79", "https://image.kilimall.com/kenya/shop/store/goods/2415/2018/04/2415_05773850115860735_720.jpg"));
-        topItemModelArrayList.add(new Product("Rubbers", "77", "https://image.kilimall.com/kenya/shop/store/goods/2415/2018/04/2415_05773049282117352_720.jpg"));
+        topItemModelArrayList.add(new Product(("1"),"Shirt", "77", "https://image.kilimall.com/kenya/shop/store/goods/2375/2018/04/2375_05782736773153857_720.jpg","Blue","Clothes","12"));
+        topItemModelArrayList.add(new Product(("2"),"Phone", "78", "https://image.kilimall.com/kenya/shop/store/goods/4935/2019/05/4935_06108150282193526_720.jpg" ,"Black","Clothes","12"));
+        topItemModelArrayList.add(new Product(("3"),"Clothes", "79", "https://image.kilimall.com/kenya/shop/store/goods/2559/2018/07/2559_05847214974665595_720.jpg","Green","Shoes","13"));
+        topItemModelArrayList.add(new Product(("4"),"Blender", "80", "https://image.kilimall.com/kenya/shop/store/goods/5169/2019/05/5169_06106272450264719_720.jpg","White","Electronics","14"));
+        topItemModelArrayList.add(new Product(("5"),"Heels", "79", "https://image.kilimall.com/kenya/shop/store/goods/2415/2018/04/2415_05773850115860735_720.jpg","Yellow","Furniture","15"));
+        topItemModelArrayList.add(new Product(("6"),"Rubbers", "77", "https://image.kilimall.com/kenya/shop/store/goods/2415/2018/04/2415_05773049282117352_720.jpg","Blue","Clothes","16"));
 
 
     }
@@ -152,7 +144,7 @@ public class HomeFragment extends Fragment {
         bundle.putString("category",  category);
         fragment.setArguments(bundle);
 
-        FragmentTransaction fragmentTransaction = getActivity()
+        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
                 .getSupportFragmentManager().beginTransaction();
 //        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out);
         fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right
@@ -163,8 +155,9 @@ public class HomeFragment extends Fragment {
 
     };
 
-    ItemClickListener mItemClickListener=(int position, String name, String price, String image)->{
+    private ItemClickListener mItemClickListener=(int position,String id, String name, String price, String image)->{
         Intent intent=new Intent(getActivity(), ProductDetailsActivity.class);
+        intent.putExtra("id",id);
         intent.putExtra("name",name);
         intent.putExtra("price",price);
         intent.putExtra("image",image);
