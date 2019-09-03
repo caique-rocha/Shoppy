@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +19,10 @@ import android.widget.Toast;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.activities.ProductDetailsActivity;
 import com.google.codelabs.appauth.adapters.TopItemAdapter;
-import com.google.codelabs.appauth.fragments.HomeFragment;
 import com.google.codelabs.appauth.interfaces.ItemClickListener;
 import com.google.codelabs.appauth.models.Product;
-import com.google.codelabs.appauth.models.TopItemModel;
 import com.google.codelabs.appauth.product.ProductClient;
 import com.google.codelabs.appauth.product.ProductInterface;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,13 +90,18 @@ public class AllCategoriesFragment extends Fragment {
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 Log.e(TAG, "onResponse: "+response);
                 if (response.isSuccessful()) {
+                    for (Product product:response.body()
+                         ) {
+                        Log.d(TAG, "onResponse: "+product);
+                    }
+
                     loadDatalist(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-                Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onFailure: "+t.getMessage() );
             }
         });
 
@@ -116,14 +115,15 @@ public class AllCategoriesFragment extends Fragment {
         TopItemAdapter adapter = new TopItemAdapter(usersList,mItemClickListener);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(
-                getActivity(), 3, GridLayoutManager.VERTICAL, false);
+                getActivity(), 3, RecyclerView.VERTICAL, false);
         recyclerViewAll.setLayoutManager(gridLayoutManager);
         recyclerViewAll.setNestedScrollingEnabled(false);
         recyclerViewAll.setAdapter(adapter);
     }
 
-    ItemClickListener mItemClickListener=(int position,String name,String price,String image)->{
+    ItemClickListener mItemClickListener=(int position,String id,String name,String price,String image)->{
         Intent intent=new Intent(getActivity(), ProductDetailsActivity.class);
+        intent.putExtra("id",id);
         intent.putExtra("name",name);
         intent.putExtra("price",price);
         intent.putExtra("image",image);

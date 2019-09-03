@@ -13,9 +13,11 @@
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginRight="@dimen/activity_margin"
         android:hint="@string/hint_search"
-        android:paddingBottom="@dimen/dimen_20" />
+        android:paddingBottom="@dimen/dimen_20"
+        android:layout_marginTop="60dp"
+        />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Shop</string>
-    <string name="title_shop">Shop</string>
+    <string name="app_name">Xhop</string>
+    <string name="title_shop">Home</string>
     <string name="title_search">Search</string>
     <string name="title_cart">Cart</string>
     <string name="title_profile">Profile</string>
@@ -76,7 +76,7 @@
     <string name="sign_upp">SIGN UP</string>
     <string name="password">Password</string>
     <string name="login_small">Login</string>
-    <string name="trending">Welcome to Shoppy the leading online shopping app</string>
+    <string name="trending">Welcome to Xhop the leading online shopping app</string>
     <string name="trending_text">Look Soft Like a Pastel this winter</string>
     <string name="bags">Bags</string>
     <string name="see_all_caps">SEE ALL</string>
@@ -105,4 +105,17 @@
     <string name="my_cart">My Cart</string>
     <string name="delete">DELETE</string>
     <string name="sign_in_with">Sign In with</string>
+    <string name="smiley_s_store">Smiley\'s Store</string>
+    <string name="lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit_sed_do_eiusmod_tempor_incididunt">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</string>
+    <string name="jd">JD</string>
+    <string name="_10_oct_2018">10 Oct,2018</string>
+    <string name="review_cancel">review-cancel</string>
+    <string name="review_ok">review_ok</string>
+    <string name="write_something_here_please">Write Something Here Please</string>
+    <string name="custom">Custom</string>
+    <string name="_0">0</string>
+    <string name="saf">Enter Safaricom\'s number to checkout…</string>
+    <string name="hint">07xxxxxxxx</string>
+    <string name="title_home">Home</string>
+    <string name="el">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</string>
 </resources>

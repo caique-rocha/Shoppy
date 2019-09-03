@@ -26,6 +26,19 @@
         android:layout_marginLeft="@dimen/action_margin"
         android:layout_marginRight="@dimen/action_margin"
         />
+    <Button
+        android:id="@+id/custom_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:text="@string/custom"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/white"
+        android:visibility="visible"
+        />
 
     <Button
         android:id="@+id/makeApiCall"

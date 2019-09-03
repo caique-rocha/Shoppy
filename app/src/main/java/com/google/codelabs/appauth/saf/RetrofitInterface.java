@@ -3,6 +3,7 @@ package com.google.codelabs.appauth.saf;
 import com.google.codelabs.appauth.models.AccessToken;
 import com.google.codelabs.appauth.models.STKPush;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,6 +15,6 @@ public interface RetrofitInterface {
     Call<AccessToken> getAccessToken(@Header("authorization") String auth);
 
     @POST("mpesa/stkpush/v1/processrequest")
-    Call<STKPush> sendPush(@Body STKPush stkPush,
-                           @Header("authorization") String bearer);
+    Call<ResponseBody> sendPush(@Body STKPush stkPush,
+                                @Header("authorization") String bearer);
 }

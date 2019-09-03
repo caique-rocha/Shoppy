@@ -1,29 +1,27 @@
 package com.google.codelabs.appauth.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.SignInButton;
 import com.google.codelabs.appauth.R;
-import com.google.codelabs.appauth.fragments.HomeFragment;
 import com.squareup.picasso.Picasso;
 
 import net.openid.appauth.AuthState;
@@ -41,9 +39,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import timber.log.Timber;
-
-import static com.google.codelabs.appauth.fragments.ProfileFragment.IMAGE_REQUEST_CODE;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -66,8 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     TextView mFamilyName;
     TextView mFullName;
     CircleImageView mProfileView;
+    Button mCustom;
 
     static String imageUri;
+    static  String fullEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +80,16 @@ public class LoginActivity extends AppCompatActivity {
         mFullName = findViewById(R.id.fullName);
         mProfileView = findViewById(R.id.profileImage);
         mUseInfo=findViewById(R.id.use_info);
+        mCustom=findViewById(R.id.custom_sign_in);
 
         enablePostAuthorizationFlows();
 
         // wire click listeners
         mAuthorize.setOnClickListener(new AuthorizeListener());
+        mCustom.setOnClickListener(v -> {
+
+            startActivity(new Intent(LoginActivity.this,SignUpActivty.class));
+        });
 
     }
         private void enablePostAuthorizationFlows() {
@@ -107,11 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (mUseInfo.getVisibility()== View.GONE) {
                     mUseInfo.setVisibility(View.VISIBLE);
                     mUseInfo.setOnClickListener(v -> {
-                        Intent intent=new Intent(LoginActivity.this,
-                                                   MainActivity.class);
-                        intent.putExtra("image",imageUri);
-                        Toast.makeText(this, imageUri, Toast.LENGTH_SHORT).show();
-                        intent.setAction(MainActivity.ACTION);
+                        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
                     });
                 }
@@ -211,12 +209,14 @@ public class LoginActivity extends AppCompatActivity {
             return null;
         }
 
+
         /**
          * Kicks off the authorization flow.
          */
         public static class AuthorizeListener implements Button.OnClickListener {
             @Override
             public void onClick(View view) {
+
                 AuthorizationServiceConfiguration serviceConfiguration = new AuthorizationServiceConfiguration(
                         Uri.parse("https://accounts.google.com/o/oauth2/v2/auth") /* auth endpoint */,
                         Uri.parse("https://www.googleapis.com/oauth2/v4/token") /* token endpoint */
@@ -259,7 +259,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        public static class MakeApiCallListener implements Button.OnClickListener {
+
+        public class MakeApiCallListener implements Button.OnClickListener {
 
             private final LoginActivity mMainActivity;
             private AuthState mAuthState;
@@ -305,7 +306,17 @@ public class LoginActivity extends AppCompatActivity {
                                     String fullName = userInfo.optString("name", null);
                                     String givenName = userInfo.optString("given_name", null);
                                     String familyName = userInfo.optString("family_name", null);
+                                    fullEmail=userInfo.optString("email",null);
                                     imageUri = userInfo.optString("picture", null);
+
+                                    SharedPreferences sharedPreferences= (SharedPreferences) getSharedPreferences("user_info",MODE_PRIVATE);
+                                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                                    editor.putString("fullName",fullName);
+                                    editor.putString("email",fullEmail);
+                                    editor.putString("image",imageUri);
+                                    editor.apply();
+
+
                                     if (!TextUtils.isEmpty(imageUri)) {
                                         Picasso.get()
                                                 .load(imageUri)

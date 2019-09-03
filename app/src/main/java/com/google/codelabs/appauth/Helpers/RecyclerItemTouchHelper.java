@@ -1,13 +1,14 @@
 package com.google.codelabs.appauth.Helpers;
 
 import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
 
-import com.google.codelabs.appauth.adapters.CartItemAdapter;
+import com.google.codelabs.appauth.Room.adapters.CartItemAdapter;
+
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
@@ -26,7 +27,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder !=null) {
-            final View foregroundView=((CartItemAdapter.cartItemViewHolder)viewHolder).viewForeground;
+            final View foregroundView=((CartItemAdapter.CartViewHolder)viewHolder).viewForeground;
             getDefaultUIUtil().onSelected(foregroundView);
         }
     }
@@ -34,7 +35,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 //        super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        final View foregroundView=((CartItemAdapter.cartItemViewHolder)viewHolder).viewForeground;
+        final View foregroundView=((CartItemAdapter.CartViewHolder)viewHolder).viewForeground;
         getDefaultUIUtil().onDrawOver(c,recyclerView,foregroundView,dX,dY,
                 actionState,isCurrentlyActive);
     }
@@ -42,14 +43,14 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
 //        super.clearView(recyclerView, viewHolder);
-        final View foregroundView=((CartItemAdapter.cartItemViewHolder)viewHolder).viewForeground;
+        final View foregroundView=((CartItemAdapter.CartViewHolder)viewHolder).viewForeground;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 //        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        final View foregroundView=((CartItemAdapter.cartItemViewHolder)viewHolder).viewForeground;
+        final View foregroundView=((CartItemAdapter.CartViewHolder)viewHolder).viewForeground;
         getDefaultUIUtil().onDraw(c,recyclerView,foregroundView,dX,dY,actionState,isCurrentlyActive);
     }
 

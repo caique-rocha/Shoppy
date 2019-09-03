@@ -1,10 +1,15 @@
 package com.google.codelabs.appauth.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +22,7 @@ import com.glide.slider.library.Animations.DescriptionAnimation;
 import com.glide.slider.library.SliderLayout;
 import com.glide.slider.library.SliderTypes.BaseSliderView;
 import com.glide.slider.library.SliderTypes.DefaultSliderView;
-import com.glide.slider.library.SliderTypes.TextSliderView;
 import com.glide.slider.library.Tricks.ViewPagerEx;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.adapters.TabLayoutAdapter;
@@ -33,7 +35,7 @@ import java.util.HashMap;
 public class ShopProfileActivity extends AppCompatActivity
         implements ShopHomeFragment.OnFragmentInteractionListener,
         ShopProductsFragment.OnFragmentInteractionListener,
-        ShopReviewsFragment.OnFragmentInteractionListener,
+
         BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -48,7 +50,6 @@ public class ShopProfileActivity extends AppCompatActivity
         setContentView(R.layout.activity_shop_profile);
 
 
-
         //viewpager
         viewPager = findViewById(R.id.viewPager);
         setUpViewPager(viewPager);
@@ -56,6 +57,8 @@ public class ShopProfileActivity extends AppCompatActivity
         //tablayout
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
+        whiteNotificationBar(tabLayout);
 
         //back button
         backbutton = findViewById(R.id.backimage);
@@ -80,12 +83,12 @@ public class ShopProfileActivity extends AppCompatActivity
         file_maps.put("House of Cards", R.drawable.catthree);
         file_maps.put("Game of Thrones", R.drawable.cattwo);
 
-        RequestOptions requestOptions=new RequestOptions();
+        RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop();
 
         for (String name : file_maps.keySet()) {
 //            TextSliderView textSliderView = new TextSliderView(this);
-            DefaultSliderView textSliderView=new DefaultSliderView(this);
+            DefaultSliderView textSliderView = new DefaultSliderView(this);
             //init slider layout
             textSliderView
                     .image(file_maps.get(name))
@@ -109,6 +112,15 @@ public class ShopProfileActivity extends AppCompatActivity
 
     }
 
+    private void whiteNotificationBar(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = view.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+            getWindow().setStatusBarColor(Color.WHITE);
+
+        }
+    }
     private void setUpViewPager(ViewPager viewPager) {
         TabLayoutAdapter adapter = new TabLayoutAdapter(getSupportFragmentManager());
         adapter.addFragment(new ShopHomeFragment(), "Home");

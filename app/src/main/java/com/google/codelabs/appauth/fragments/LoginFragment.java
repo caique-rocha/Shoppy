@@ -6,17 +6,17 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.codelabs.appauth.activities.App;
 import com.google.codelabs.appauth.activities.MainActivity;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.Utils.Constants;
@@ -88,7 +88,16 @@ public class LoginFragment extends Fragment {
         mTvForgotPassword =v.findViewById(R.id.forgot_password);
 
         mBtLogin.setOnClickListener(view->login());
-        mTvForgotPassword.setOnClickListener((view)->startActivity(new Intent(getActivity(), MainActivity.class)));
+        mTvForgotPassword.setOnClickListener((view)->{
+            Intent intent;
+            if (com.google.codelabs.appauth.Helpers.NetworkUtil.getConnectivityStatusString(getActivity()).equals("No internet is available")) {
+                intent=new Intent(getActivity(),App.class);
+            }
+            else{
+                intent=new Intent(getActivity(), MainActivity.class);
+            }
+            startActivity(intent);
+        });
 
     }
 

@@ -1,0 +1,122 @@
+ext {
+    def AppCompatVersion = '1.0.0'
+    def ConstraintLayoutVersion = '1.1.3'
+    def SupportLibVersion = '1.0.0'
+    def JunitVersion = '4.12'
+    def TestRunnerVersion = '1.1.0'
+    def EspressoCoreVersion = '3.1.0'
+    def MaterialVersion = '1.0.0'
+    def CardViewVersion = '1.0.0'
+    def RecyclerVersion = '1.0.0'
+    def ButterKnifeVersion = '10.1.0'
+    def PicassoVersion = '2.71828'
+    def TimberVersion = '4.7.1'
+    def GoogleGsonVersion = '2.8.5'
+    def CircleImageVersion = '3.0.0'
+    def RetrofitVersion = '2.6.0'
+    def RetrofitGsonVersion = '2.5.0'
+    def OkHttpLoggerVersion = '3.11.0'
+    def AppAuthVersion = '0.2.0'
+    def GlideVersion = '4.8.0'
+    def AppIntroVersion = '5.1.0'
+    def SquareRxJavaAdapterVersion = '2.1.0'
+    def JakeRxJavaAdapterVersion = '1.0.0'
+    def RxJavaVersion = '1.2.0'
+    def RxAndroidVersion = '1.2.1'
+    def OkHttpUrlConnectionVersion = '3.0.1'
+    def RxBindingVersion = '2.0.0'
+    def RxJava2Version = '2.1.9'
+    def RxAndroid2Version = '2.0.1'
+    def SectionedRvVersion = '1.2.0'
+    def FirebaseMessagingVersion = '11.8.0'
+    def NineOldsVersion = '2.4.0'
+    def GlideSliderVersion = '1.4.1'
+    def FirebaseAdsVersion = '11.8.0'
+    def MultidexVersion = '2.0.0'
+    def GooglePlayVersion = '11.8.0'
+    def StripeVersion = '9.3.5'
+    def RoomVersion = '2.1.0'
+    def RoomCompilerVersion = '2.1.0'
+    def RoomTestingVersion = '2.1.0'
+    def ArchLifecycleVersion = '2.0.0'
+    def ArchLifecycleCompilerVersion = '2.0.0'
+    def RatingBarVersion = '1.3.2'
+    def DotsLoaderVersion = '1.0.0'
+
+    rxJavaDepedencies = [
+            squareRxAdapter: "com.squareup.retrofit2:adapter-rxjava:${SquareRxJavaAdapterVersion}",
+            jakeRxAdapter  : "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${JakeRxJavaAdapterVersion}",
+            rxJava         : "io.reactivex:rxjava:${RxJavaVersion}",
+            rxAndroid      : "io.reactivex:rxandroid:${RxAndroidVersion}",
+            rx2Java        : "io.reactivex.rxjava2:rxjava:${RxJava2Version}",
+            rx2Android     : "io.reactivex.rxjava2:rxandroid:${RxAndroid2Version}",
+            rxBinding      : "com.jakewharton.rxbinding2:rxbinding:${RxBindingVersion}",
+
+    ]
+
+    networkDepedencies = [
+            retrofit             : "com.squareup.retrofit2:retrofit:${RetrofitVersion}",
+            retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:${RetrofitGsonVersion}",
+            googleGsonConverter  : "com.google.code.gson:gson:${GoogleGsonVersion}",
+            OkHttp3              : "com.squareup.okhttp3:okhttp-urlconnection:${OkHttpUrlConnectionVersion}",
+            OkHttp3Logging       : "com.squareup.okhttp3:logging-interceptor:${OkHttpLoggerVersion}",
+
+
+    ]
+
+    viewsDepedencies = [
+            appCompat       : "androidx.appcompat:appcompat:${AppCompatVersion}",
+            constraintLayout: "androidx.constraintlayout:constraintlayout:${ConstraintLayoutVersion}",
+            legacySupportLib: "androidx.legacy:legacy-support-v4:${SupportLibVersion}",
+            material        : "com.google.android.material:material:${MaterialVersion}",
+            cardView        : "androidx.cardview:cardview:${CardViewVersion}",
+            recyclerView    : "androidx.recyclerview:recyclerview:${RecyclerVersion}",
+            circleImageView : "de.hdodenhof:circleimageview:${CircleImageVersion}",
+            appIntro        : "com.github.AppIntro:AppIntro:${AppIntroVersion}",
+            sectionedRv     : "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:${SectionedRvVersion}",
+            ratingBar       : "me.zhanghai.android.materialratingbar:library:${RatingBarVersion}",
+            dotsLoader      : "com.steelkiwi:dots-loader-view:${DotsLoaderVersion}",
+            imageSlider     : "com.github.firdausmaulan:GlideSlider:${GlideSliderVersion}",
+
+            butterknife     : "com.jakewharton:butterknife:${ButterKnifeVersion}",
+
+            picasso         : "com.squareup.picasso:picasso:${PicassoVersion}",
+            glide           : "com.github.bumptech.glide:glide:${GlideVersion}"
+    ]
+
+    junitDepedencies = [
+            junit: "junit:junit:${JunitVersion}"
+
+    ]
+
+    testDepedencies = [
+            testRunner : "androidx.test:runner:${TestRunnerVersion}",
+            espresso   : "androidx.test.espresso:espresso-core:${EspressoCoreVersion}",
+            roomTesting: "androidx.room:room-testing:${RoomTestingVersion}"
+    ]
+
+    googleDepedencies = [
+            messaging   : "com.google.firebase:firebase-messaging:${FirebaseMessagingVersion}",
+            ads         : "com.google.firebase:firebase-ads:${FirebaseAdsVersion}",
+            playServices: "com.google.android.gms:play-services:${GooglePlayVersion}"
+    ]
+
+    roomDepedencies = [
+            database : "androidx.room:room-runtime:${RoomVersion}",
+            lifecycle: "androidx.lifecycle:lifecycle-extensions:${ArchLifecycleVersion}"
+    ]
+
+    annotationProcessors = [
+            butterknifeCompiler:"com.jakewharton:butterknife-compiler:${ButterKnifeVersion}",
+            archLifecycle: "androidx.lifecycle:lifecycle-compiler:${ArchLifecycleCompilerVersion}",
+            room         : "androidx.room:room-compiler:${RoomCompilerVersion}"
+    ]
+
+    extraDepedencies = [
+            stripe  : "com.stripe:stripe-android:${StripeVersion}",
+            multidex: "androidx.multidex:multidex:${MultidexVersion}",
+            auth    : "net.openid:appauth:${AppAuthVersion}",
+            timber  : "com.jakewharton.timber:timber:${TimberVersion}"
+
+    ]
+}

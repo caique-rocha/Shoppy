@@ -3,9 +3,9 @@ package com.google.codelabs.appauth.adapters;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +92,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private void configureViewHolder3(TopItemViewHolder viewHolder3, int i) {
         TopItemModel topItemModel = (TopItemModel)items.get(i);
-        Picasso.get().load(topItemModel.getmTopImage())
+        Picasso.get().load(topItemModel.getmImageUrl())
                 .into(viewHolder3.ivProduct);
 
         TextView name = viewHolder3.tvProduct;

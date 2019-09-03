@@ -4,12 +4,16 @@ public class TopItemModel {
 
     String mTopName;
     Integer mTopPrice;
-    int mTopImage;
+    String mImageUrl;
+    String mImageId;
+    String mImageCategory;
 
-    public TopItemModel(String mTopName, Integer mTopPrice, int mTopImage) {
+    public TopItemModel(String mTopName, Integer mTopPrice, String mImageUrl, String mImageId, String mImageCategory) {
         this.mTopName = mTopName;
         this.mTopPrice = mTopPrice;
-        this.mTopImage = mTopImage;
+        this.mImageUrl = mImageUrl;
+        this.mImageId = mImageId;
+        this.mImageCategory = mImageCategory;
     }
 
     public String getmTopName() {
@@ -28,11 +32,27 @@ public class TopItemModel {
         this.mTopPrice = mTopPrice;
     }
 
-    public int getmTopImage() {
-        return mTopImage;
+    public String getmImageUrl() {
+        return mImageUrl;
     }
 
-    public void setmTopImage(int mTopImage) {
-        this.mTopImage = mTopImage;
+    public void setmImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
+    }
+
+    public String getmImageId() {
+        return mImageId;
+    }
+
+    public void setmImageId(String mImageId) {
+        this.mImageId = mImageId;
+    }
+
+    public String getmImageCategory() {
+        return mImageCategory;
+    }
+
+    public void setmImageCategory(String mImageCategory) {
+        this.mImageCategory = mImageCategory;
     }
 }

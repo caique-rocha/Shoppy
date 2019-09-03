@@ -1,18 +1,25 @@
 package com.google.codelabs.appauth.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
+import com.google.codelabs.appauth.Helpers.MyReceiver;
+import com.google.codelabs.appauth.Helpers.NetworkUtil;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.adapters.SignUpTabLayout;
 import com.google.codelabs.appauth.fragments.LoginFragment;
@@ -34,6 +41,7 @@ public class SignUpActivty extends AppCompatActivity implements
 
     private LoginFragment mLoginFragment;
     private ResetPasswordDialog mResetPasswordDialog;
+    private BroadcastReceiver MyReceiver=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,42 +51,29 @@ public class SignUpActivty extends AppCompatActivity implements
         signUpPager = findViewById(R.id.signUpViewPager);
         setUpViewPager(signUpPager);
 
+
         signUpTabs = findViewById(R.id.signUpTabs);
         signUpTabs.setupWithViewPager(signUpPager);
+
+        whiteNotificationBar(signUpTabs);
 
         if (savedInstanceState == null) {
 
             loadFragment();
         }
 
-     AsyncTask.execute(()->{
-             //init shared prefs
-             SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-             //create a new boolean and preference and set it to true
-             boolean isFirstTime = getPrefs.getBoolean("firsttime", true);
-
-             //if activity has never been started before
-             if (isFirstTime) {
-                 //launch app intro
-                 final Intent i = new Intent(SignUpActivty.this, IntroActivity.class);
-                 i.setAction("FROM_SIGNUP");
-                 runOnUiThread(() -> startActivity(i));
-                 startActivity(i);
-
-                 //make a new prefs editor
-                 SharedPreferences.Editor e = getPrefs.edit();
-
-                 //put it to false so as it doesnt run again
-                 e.putBoolean("firsttime", false);
-
-                 //apply changes
-                 e.apply();
-             }
-
-         });
 
 
+
+    }
+
+    private void whiteNotificationBar(View view) {
+        if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.M) {
+            int flags=view.getSystemUiVisibility();
+            flags |=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+            getWindow().setStatusBarColor(Color.WHITE);
+        }
 
     }
 
@@ -112,7 +107,53 @@ public class SignUpActivty extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-//        addFragment(new LoginFragment());
+
+
+        //check internet connection if exists direct to signup
+        //if not connected direct to splash screen
+        MyReceiver=new MyReceiver();
+        broadcastIntent();
+
+
+        AsyncTask.execute(()->{
+            MyReceiver=new MyReceiver();
+            broadcastIntent();
+            //init shared prefs
+            SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+            //create a new boolean and preference and set it to true
+            boolean isFirstTime = getPrefs.getBoolean("firsttime", true);
+
+            //if activity has never been started before
+            if (isFirstTime) {
+                //launch app intro
+                final Intent i = new Intent(SignUpActivty.this, IntroActivity.class);
+                i.setAction("FROM_SIGNUP");
+                runOnUiThread(() -> startActivity(i));
+                startActivity(i);
+
+                //make a new prefs editor
+                SharedPreferences.Editor e = getPrefs.edit();
+
+                //put it to false so as it doesnt run again
+                e.putBoolean("firsttime", false);
+
+                //apply changes
+                e.apply();
+            }
+
+        });
+    }
+
+    private void broadcastIntent() {
+        registerReceiver(MyReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        unregisterReceiver(MyReceiver);
     }
 
     private void addFragment(LoginFragment fragment) {

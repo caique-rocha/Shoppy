@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.steelkiwi:dots-loader-view:1.0.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8ab85d1feddb4c6edec530f7571a9e23/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8ab85d1feddb4c6edec530f7571a9e23/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.steelkiwi/dots-loader-view/1.0.0/17d0e4da6bf8011c98d7ffda46517b29db261bbf/dots-loader-view-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
