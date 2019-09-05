@@ -1,11 +1,8 @@
 language:android
-
+dist: trusty
 android:
   components:
+    #build tools used by your project
     - tools
+    #The SDK Version used to  compile your project
     - platform-tools
-
-  jdk:
-    -oraclejdk8
-
-  sudo:false
