@@ -20,7 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:allowBackup">
-        <activity android:name=".activities.App"></activity>
 
         <receiver android:name=".Helpers.MyReceiver">
             <intent-filter>
@@ -46,39 +45,10 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".push.activity.PushActivity" /> <!-- <provider -->
-        <!-- android:authorities="${applicationId}.provider" -->
-        <!-- android:name="android.support.v4.content.FileProvider" -->
-        <!-- android:exported="false" -->
-        <!-- android:grantUriPermissions="true" -->
-        <!-- &gt; -->
-        <!-- <meta-data -->
-        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
-        <!-- /> -->
-        <!-- </provider> -->
-        <activity android:name=".activities.UploadProductActivity" />
-        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".push.activity.PushActivity" />
         <activity android:name=".activities.IntroActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-
-
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".activities.SignUpActivty">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <data
-                    android:host="learn2crack"
-                    android:scheme="http" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.ShopProfileActivity" />
         <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
@@ -92,13 +62,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.LoginActivity">
-
-            <!-- <intent-filter> -->
-            <!-- &lt;!&ndash;<action android:name="android.intent.action.MAIN" />&ndash;&gt; -->
-
-
-            <!-- &lt;!&ndash;<category android:name="android.intent.category.LAUNCHER" />&ndash;&gt; -->
-            <!-- </intent-filter> -->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 

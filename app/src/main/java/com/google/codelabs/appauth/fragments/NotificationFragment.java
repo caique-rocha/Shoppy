@@ -100,7 +100,6 @@ public class NotificationFragment extends Fragment {
         firebaseRegId = prefs.getString("regId", null);
 
         sendToserver(firebaseRegId);
-        Log.d(TAG, firebaseRegId);
     }
 
     private void sendToserver(String firebaseRegId) {
