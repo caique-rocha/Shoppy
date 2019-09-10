@@ -134,10 +134,10 @@ public class UploadProductActivity extends AppCompatActivity {
                     GALLERY_REQUEST_CODE);
 
         });
-
-        lnrImages = findViewById(R.id.lnrImages);
-        ivAddPhotos.setOnClickListener(v ->startActivityForResult(getPickImageChooserIntent(),
-                IMAGE_RESULT));
+//
+//        lnrImages = findViewById(R.id.lnrImages);
+//        ivAddPhotos.setOnClickListener(v ->startActivityForResult(getPickImageChooserIntent(),
+//                IMAGE_RESULT));
 
 
 

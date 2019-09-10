@@ -6,7 +6,9 @@ import android.graphics.Color;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
@@ -23,13 +25,12 @@ public class IntroActivity extends AppIntro {
         SliderPage firstFragment = new SliderPage();
         firstFragment.setTitle("Access  Amazing products ");
         firstFragment.setDescription("Get the opportunity " +
-                "o surf a whole world of first class commodities ");
+                "to surf a whole world of first class commodities ");
         firstFragment.setImageDrawable(R.drawable.ic_food);
         firstFragment.setBgColor(getResources().getColor(R.color.colorGreen));
         addSlide(AppIntroFragment.newInstance(firstFragment));
 
         askForPermissions(new String[]{Manifest.permission.INTERNET}, 1);
-
 
         SliderPage secondFragment = new SliderPage();
         secondFragment.setTitle("Choose your items ");
@@ -59,4 +60,5 @@ public class IntroActivity extends AppIntro {
         super.onDonePressed(currentFragment);
         startActivity(new Intent(IntroActivity.this, MainActivity.class));
     }
+
 }

@@ -20,7 +20,6 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,7 +27,6 @@ import android.widget.TextView;
 
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.codelabs.appauth.Helpers.NetworkUtil;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.fragments.AllCategoriesFragment;
 import com.google.codelabs.appauth.fragments.CartFragment;
@@ -45,7 +43,6 @@ import com.google.codelabs.appauth.saf.Config;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import steelkiwi.com.library.DotsLoaderView;
 
 public class MainActivity extends AppCompatActivity implements
         HomeFragment.OnFragmentInteractionListener,

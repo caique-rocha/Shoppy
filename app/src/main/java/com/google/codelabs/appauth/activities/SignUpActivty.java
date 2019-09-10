@@ -1,25 +1,20 @@
 package com.google.codelabs.appauth.activities;
 
 import android.content.BroadcastReceiver;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.FragmentTransaction;
+
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.codelabs.appauth.Helpers.MyReceiver;
-import com.google.codelabs.appauth.Helpers.NetworkUtil;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.adapters.SignUpTabLayout;
 import com.google.codelabs.appauth.fragments.LoginFragment;
@@ -39,9 +34,6 @@ public class SignUpActivty extends AppCompatActivity implements
 
     public static final String TAG = SignUpActivty.class.getSimpleName();
 
-    private LoginFragment mLoginFragment;
-    private ResetPasswordDialog mResetPasswordDialog;
-    private BroadcastReceiver MyReceiver=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +93,6 @@ public class SignUpActivty extends AppCompatActivity implements
 
     }
 
-    private void broadcastIntent() {
-        registerReceiver(MyReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-    }
 
     @Override
     public void onPasswordReset(String message) {

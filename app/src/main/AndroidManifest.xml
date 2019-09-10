@@ -21,13 +21,6 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:allowBackup">
 
-        <receiver android:name=".Helpers.MyReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGED" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-            </intent-filter>
-        </receiver>
-
         <activity android:name=".activities.CheckOutActivity" />
 
         <meta-data
@@ -80,10 +73,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.UploadProductActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <receiver android:name=".receivers.NetworkChangeReceiver">
+            <intent-filter>
+              <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                  tools:ignore="BatteryLife" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

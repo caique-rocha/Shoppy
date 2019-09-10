@@ -118,4 +118,5 @@
     <string name="hint">07xxxxxxxx</string>
     <string name="title_home">Home</string>
     <string name="el">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</string>
+    <string name="image">Image</string>
 </resources>
