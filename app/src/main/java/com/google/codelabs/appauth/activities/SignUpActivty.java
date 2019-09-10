@@ -1,25 +1,20 @@
 package com.google.codelabs.appauth.activities;
 
 import android.content.BroadcastReceiver;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.FragmentTransaction;
+
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.codelabs.appauth.Helpers.MyReceiver;
-import com.google.codelabs.appauth.Helpers.NetworkUtil;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.adapters.SignUpTabLayout;
 import com.google.codelabs.appauth.fragments.LoginFragment;
@@ -39,9 +34,6 @@ public class SignUpActivty extends AppCompatActivity implements
 
     public static final String TAG = SignUpActivty.class.getSimpleName();
 
-    private LoginFragment mLoginFragment;
-    private ResetPasswordDialog mResetPasswordDialog;
-    private BroadcastReceiver MyReceiver=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +69,7 @@ public class SignUpActivty extends AppCompatActivity implements
 
     }
 
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-////        String data = intent.getData().getLastPathSegment();
-////        Log.d(TAG, "onNewIntent: "+data);
-////        mResetPasswordDialog = (ResetPasswordDialog) getFragmentManager().findFragmentByTag(ResetPasswordDialog.TAG);
-//
-//        if (mResetPasswordDialog != null)
-//            mResetPasswordDialog.setToken(data);
-//    }
+
 
     private void loadFragment() {
     }
@@ -108,67 +91,12 @@ public class SignUpActivty extends AppCompatActivity implements
     protected void onStart() {
         super.onStart();
 
-
-        //check internet connection if exists direct to signup
-        //if not connected direct to splash screen
-        MyReceiver=new MyReceiver();
-        broadcastIntent();
-
-
-        AsyncTask.execute(()->{
-            MyReceiver=new MyReceiver();
-            broadcastIntent();
-            //init shared prefs
-            SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-            //create a new boolean and preference and set it to true
-            boolean isFirstTime = getPrefs.getBoolean("firsttime", true);
-
-            //if activity has never been started before
-            if (isFirstTime) {
-                //launch app intro
-                final Intent i = new Intent(SignUpActivty.this, IntroActivity.class);
-                i.setAction("FROM_SIGNUP");
-                runOnUiThread(() -> startActivity(i));
-                startActivity(i);
-
-                //make a new prefs editor
-                SharedPreferences.Editor e = getPrefs.edit();
-
-                //put it to false so as it doesnt run again
-                e.putBoolean("firsttime", false);
-
-                //apply changes
-                e.apply();
-            }
-
-        });
     }
 
-    private void broadcastIntent() {
-        registerReceiver(MyReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        unregisterReceiver(MyReceiver);
-    }
-
-    private void addFragment(LoginFragment fragment) {
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.frame_sign_up, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
     @Override
     public void onPasswordReset(String message) {
         showSnackBarMessage(message);
-
-
     }
 
     private void showSnackBarMessage(String message) {
