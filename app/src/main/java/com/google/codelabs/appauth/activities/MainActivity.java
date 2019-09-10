@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,7 +27,6 @@ import android.widget.TextView;
 
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.codelabs.appauth.Helpers.NetworkUtil;
 import com.google.codelabs.appauth.R;
 import com.google.codelabs.appauth.fragments.AllCategoriesFragment;
 import com.google.codelabs.appauth.fragments.CartFragment;
@@ -43,7 +43,6 @@ import com.google.codelabs.appauth.saf.Config;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import steelkiwi.com.library.DotsLoaderView;
 
 public class MainActivity extends AppCompatActivity implements
         HomeFragment.OnFragmentInteractionListener,
@@ -73,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements
     String imageUri;
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    public  static  String FirebaseRegId = null;
+    public static String FirebaseRegId = null;
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         //save the current users fragment
@@ -91,23 +91,23 @@ public class MainActivity extends AppCompatActivity implements
         MobileAds.initialize(this, "ca-app-pub-9476521556541591~7305076193");
 
 
-        //white notificationbar
+        //white notification bar
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         loadFragment(new HomeFragment());
 
 
-         notificationButton=findViewById(R.id.notificationBtn);
+        notificationButton = findViewById(R.id.notificationBtn);
 
-         messageButton=findViewById(R.id.messageButton);
+        messageButton = findViewById(R.id.messageButton);
 
-        toProfile=findViewById(R.id.logo);
+        toProfile = findViewById(R.id.logo);
 
 
         whiteNotificationBar(toolbar);
 
         //default fragment
-    loadFragment(new HomeFragment());
+        loadFragment(new HomeFragment());
 
 
         //bottom navigation View
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements
                 case (R.id.navigation_search):
                     toProfile.setText(getResources().getString(R.string.title_search));
                     loadFragment(new SearchFragment());
-//                    startActivity(new Intent(MainActivity.this, SearchActivity.class));
+
                     return true;
                 case (R.id.navigation_cart):
                     toProfile.setText(getResources().getString(R.string.title_cart));
@@ -162,9 +162,6 @@ public class MainActivity extends AppCompatActivity implements
                     ProfileFragment fragment = new ProfileFragment();
                     fragment.setArguments(bundle);
                     loadFragment(fragment);
-//                    Intent intent=new Intent(MainActivity.this,LoginActivity.class);
-//                    intent.setAction(ACTION);
-//                    startActivity(intent);
                     return true;
                 case (R.id.navigation_more):
                     toProfile.setText(getResources().getString(R.string.title_more));
@@ -189,14 +186,22 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-//        Intent intent;
-//        if (com.google.codelabs.appauth.Helpers.NetworkUtil.getConnectivityStatusString(this).equals("No internet is available")) {
-//            intent=new Intent(getApplicationContext(),App.class);
-//        }
-//        else{
-//            intent=new Intent(MainActivity.this, MainActivity.class);
-//        }
-//        startActivity(intent);
+
+        //check if its first time launch
+        AsyncTask.execute(()->{
+            SharedPreferences getPrefs= PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            boolean isFirstTime=getPrefs.getBoolean("first-time",true);
+            if (isFirstTime) {
+             Intent intent=new Intent(MainActivity.this,IntroActivity.class);
+                runOnUiThread(()->startActivity(intent));
+                startActivity(intent);
+                SharedPreferences.Editor editor=getPrefs.edit();
+                editor.putBoolean("first-time",false);
+                editor.apply();
+            }
+        });
+
+
     }
 
     @Override
@@ -210,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements
             int flags = view.getSystemUiVisibility();
             flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             view.setSystemUiVisibility(flags);
-            getWindow().setStatusBarColor(Color.DKGRAY);
+            getWindow().setStatusBarColor(Color.WHITE);
         }
     }
 
@@ -221,10 +226,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    public  String getFirebaseId(){
+    public String getFirebaseId() {
         SharedPreferences prefs = getSharedPreferences(Config.SHARED_PREF, 0);
         FirebaseRegId = prefs.getString("regId", null);
-        Log.d(TAG, FirebaseRegId);
+//        Log.d(TAG, FirebaseRegId);
         return FirebaseRegId;
     }
+
+
 }
