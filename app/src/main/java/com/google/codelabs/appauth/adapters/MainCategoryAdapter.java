@@ -3,9 +3,13 @@ package com.google.codelabs.appauth.adapters;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +29,12 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
     private LayoutInflater inflater;
     List<MainCategory> mainCategoryList;
     Context context;
-   public FragmentCommunication mFragmentCommunication;
+    public FragmentCommunication mFragmentCommunication;
+
+    //A menu item view type
+    private static final int MENU_ITEM_VIEW_TYPE=0;
+    //The unified native ad view type
+    private static final int UNIFIED_NATIVE_AD_VIEW_TYPE=1;
 
     public MainCategoryAdapter(List<MainCategory> mainCategoryList,
                                Context context, FragmentCommunication mFragmentCommunication) {
@@ -86,7 +95,7 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
 
         @Override
         public void onClick(View v) {
-            fragmentCommunication.respond(getAdapterPosition(),mainCategoryList.get(getAdapterPosition()).getLabel());
+            fragmentCommunication.respond(getAdapterPosition(), mainCategoryList.get(getAdapterPosition()).getLabel());
         }
     }
 }

@@ -229,8 +229,6 @@ public class HomeFragment extends Fragment {
                 , R.drawable.ic_golf_course_black_24dp, "Sporting"));
         items.add(new MainCategory(getRandomMaterialColor("500")
                 , R.drawable.ic_smartphone_black_24dp, "Phones"));
-
-
         return items;
 
     }
