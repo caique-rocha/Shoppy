@@ -25,10 +25,6 @@ public class App extends AppCompatActivity {
 
         dotsLoaderView.show();
 
-        if (NetworkUtil.getConnectivityStatusString(this).equals("Wifi data enabled") ||
-                NetworkUtil.getConnectivityStatusString(this).equals("Mobile data enabled")) {
-            dotsLoaderView.hide();
-        }
 
     }
 

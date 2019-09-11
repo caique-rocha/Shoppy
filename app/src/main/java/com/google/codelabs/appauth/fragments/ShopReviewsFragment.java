@@ -41,11 +41,6 @@ public class ShopReviewsFragment extends Fragment {
     RecyclerView mReviewsRecycler;
 
     View view;
-    ShopReviewAdapter mAdapter;
-    Context context;
-    Review mReview;
-    List<Review> mReviewList=new ArrayList<>();
-
 
 
     @Override
@@ -60,7 +55,7 @@ public class ShopReviewsFragment extends Fragment {
         // Inflate the layout for this fragment
          view= inflater.inflate(R.layout.fragment_shop_reviews, container, false);
         unbinder = ButterKnife.bind(this, view);
-        loadAllReviews();
+
 
         mAddReview.setOnClickListener(v -> {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
@@ -108,35 +103,8 @@ public class ShopReviewsFragment extends Fragment {
             alertDialog.show();
 
         });
-        mReviewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter=new ShopReviewAdapter(mReviewList,mReview);
+
         return view;
-    }
-
-    private void loadAllReviews() {
-        ProductInterface productInterface=ProductClient.getProductClient().create(ProductInterface.class);
-        Call<List<Review>> call=productInterface.getAllShopReviews();
-        call.enqueue(new Callback<List<Review>>() {
-            @Override
-            public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
-                loadDataList(response.body());
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<Review>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void loadDataList(List<Review> userList) {
-        //create adapter
-        mAdapter=new ShopReviewAdapter(userList,mReview);
-        mReviewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mReviewsRecycler.setAdapter(mAdapter);
-
-
     }
 
     private void sendToServer(Review review) {

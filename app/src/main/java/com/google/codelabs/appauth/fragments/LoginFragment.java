@@ -90,12 +90,9 @@ public class LoginFragment extends Fragment {
         mBtLogin.setOnClickListener(view->login());
         mTvForgotPassword.setOnClickListener((view)->{
             Intent intent;
-            if (com.google.codelabs.appauth.Helpers.NetworkUtil.getConnectivityStatusString(getActivity()).equals("No internet is available")) {
-                intent=new Intent(getActivity(),App.class);
-            }
-            else{
+
                 intent=new Intent(getActivity(), MainActivity.class);
-            }
+
             startActivity(intent);
         });
 

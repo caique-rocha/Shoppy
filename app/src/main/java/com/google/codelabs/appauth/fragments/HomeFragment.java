@@ -206,29 +206,29 @@ public class HomeFragment extends Fragment {
     private ArrayList<MainCategory> getSimpleArrayList() {
         items = new ArrayList<>();
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Apparel"));
+                , R.drawable.ic_face_black_24dp, "Apparel"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Beauty"));
+                , R.drawable.ic_brush_black_24dp, "Beauty"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Shoes"));
+                , R.drawable.ic_directions_walk_black_24dp, "Shoes"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Electronics"));
+                , R.drawable.ic_desktop_mac_black_24dp, "Computing"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Furniture"));
+                , R.drawable.ic_child_friendly_black_24dp, "Furniture"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Home"));
+                , R.drawable.ic_library_books_black_24dp, "Books"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Aparell"));
+                , R.drawable.ic_restaurant_menu_black_24dp, "Food"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Aparell"));
+                , R.drawable.ic_local_grocery_store_black_24dp, "Grocery"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Aparell"));
+                , R.drawable.ic_videogame_asset_black_24dp, "Gaming"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Aparell"));
+                , R.drawable.ic_local_hospital_black_24dp, "Health"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Aparell"));
+                , R.drawable.ic_golf_course_black_24dp, "Sporting"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_home_white_24dp, "Aparell"));
+                , R.drawable.ic_smartphone_black_24dp, "Phones"));
 
 
         return items;
