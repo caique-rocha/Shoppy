@@ -214,7 +214,7 @@ public class HomeFragment extends Fragment {
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_desktop_mac_black_24dp, "Computing"));
         items.add(new MainCategory(getRandomMaterialColor("400")
-                , R.drawable.ic_child_friendly_black_24dp, "Furniture"));
+                , R.drawable.ic_event_seat_black_24dp, "Furniture"));
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_library_books_black_24dp, "Books"));
         items.add(new MainCategory(getRandomMaterialColor("400")
