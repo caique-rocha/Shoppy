@@ -207,27 +207,27 @@ public class HomeFragment extends Fragment {
         items = new ArrayList<>();
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_face_black_24dp, "Apparel"));
-        items.add(new MainCategory(getRandomMaterialColor("400")
+        items.add(new MainCategory(getRandomMaterialColor("500")
                 , R.drawable.ic_brush_black_24dp, "Beauty"));
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_directions_walk_black_24dp, "Shoes"));
-        items.add(new MainCategory(getRandomMaterialColor("400")
+        items.add(new MainCategory(getRandomMaterialColor("500")
                 , R.drawable.ic_desktop_mac_black_24dp, "Computing"));
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_event_seat_black_24dp, "Furniture"));
-        items.add(new MainCategory(getRandomMaterialColor("400")
+        items.add(new MainCategory(getRandomMaterialColor("500")
                 , R.drawable.ic_library_books_black_24dp, "Books"));
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_restaurant_menu_black_24dp, "Food"));
-        items.add(new MainCategory(getRandomMaterialColor("400")
+        items.add(new MainCategory(getRandomMaterialColor("500")
                 , R.drawable.ic_local_grocery_store_black_24dp, "Grocery"));
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_videogame_asset_black_24dp, "Gaming"));
-        items.add(new MainCategory(getRandomMaterialColor("400")
+        items.add(new MainCategory(getRandomMaterialColor("500")
                 , R.drawable.ic_local_hospital_black_24dp, "Health"));
         items.add(new MainCategory(getRandomMaterialColor("400")
                 , R.drawable.ic_golf_course_black_24dp, "Sporting"));
-        items.add(new MainCategory(getRandomMaterialColor("400")
+        items.add(new MainCategory(getRandomMaterialColor("500")
                 , R.drawable.ic_smartphone_black_24dp, "Phones"));
 
 
