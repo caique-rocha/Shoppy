@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "346743077278",
-    "firebase_url": "https://shop-9543d.firebaseio.com",
-    "project_id": "shop-9543d",
-    "storage_bucket": "shop-9543d.appspot.com"
+    "project_number": "854779428529",
+    "firebase_url": "https://xhop-52fa2.firebaseio.com",
+    "project_id": "xhop-52fa2",
+    "storage_bucket": "xhop-52fa2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:346743077278:android:1e96f9baf9f9bb11",
+        "mobilesdk_app_id": "1:854779428529:android:28d0f2c6e106ba7725ac90",
         "android_client_info": {
-          "package_name": "com.google.codelabs.appauth"
+          "package_name": "com.xhop.codelabs.appauth"
         }
       },
       "oauth_client": [
         {
-          "client_id": "346743077278-l87dmolos784nvebsadnq5rka7oqtm43.apps.googleusercontent.com",
+          "client_id": "854779428529-hldvf4a7ig8e2arqra70b0fuoncfir9o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.google.codelabs.appauth",
-            "certificate_hash": "5cc8bf940167886a0d83c79247eea66bd95b5d93"
+            "package_name": "com.xhop.codelabs.appauth",
+            "certificate_hash": "38a89a18334fda1d7cb835c4a7e002bcc366d822"
           }
         },
         {
-          "client_id": "346743077278-coo1fu2g8ggkb8s3hg7649enjt6h41b7.apps.googleusercontent.com",
+          "client_id": "854779428529-bo66elfat6orupmg4tegdanppsbc3fdb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDVPSPokWo9UyFpEyugX4Yu7tVJLrTn5sU"
+          "current_key": "AIzaSyD4hRe7h0jOuy9R0gNUTMptH7RF62k1FRQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "346743077278-vklfouh7ai1t6trlfbj284mqh7udtqv9.apps.googleusercontent.com",
+              "client_id": "854779428529-bo66elfat6orupmg4tegdanppsbc3fdb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
